@@ -1,0 +1,600 @@
+{
+  "info": {
+    "name": "PracticeSoftwareTesting API Test Cases (Fixed)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "57c39ba5-3c42-4426-9026-d683ff950360"
+  },
+  "item": [
+    {
+      "name": "TC01_GetProducts_Price1to78",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?between=price,1,78",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "between",
+              "value": "price,1,78"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));",
+              "const list=pm.response.json().data;",
+              "pm.test('All prices 1-78',()=>list.every(p=>p.price>=1&&p.price<=78));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC02_GetProducts_Page1",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?page=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));",
+              "pm.test('Data non-empty',()=>pm.response.json().data.length>0);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC03_GetProducts_Price1to21",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?between=price,1,21",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "between",
+              "value": "price,1,21"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));",
+              "const list=pm.response.json().data;",
+              "pm.test('All prices 1-21',()=>list.every(p=>p.price>=1&&p.price<=21));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC04_GetProducts_SortedAsc",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?sort=name,asc&between=price,1,100&page=0",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "sort",
+              "value": "name,asc"
+            },
+            {
+              "key": "between",
+              "value": "price,1,100"
+            },
+            {
+              "key": "page",
+              "value": "0"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));",
+              "const list=pm.response.json().data;",
+              "pm.test('Sorted',()=>list.every((p,i)=>i===0||list[i-1].name.localeCompare(p.name)<=0));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC05_GetProduct_ValidID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products/{valid_product_id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "{{valid_product_id}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));",
+              "const obj=pm.response.json();['id','name','price'].forEach(k=>pm.expect(obj).to.have.property(k));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC06_PostMessage_Normal",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/messages",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test\",\n  \"subject\": \"return\",\n  \"message\": \"Quality\",\n  \"email\": \"test@example.com\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200/201',()=>pm.expect([200,201]).to.include(pm.response.code));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC07_GetProducts_NegativePrice",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?between=price,-10,5",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "between",
+              "value": "price,-10,5"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC08_GetProducts_WrongSort",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?sort=name,wrong",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "sort",
+              "value": "name,wrong"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC09_GetProduct_InvalidID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products/{invalid_product_id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "{{invalid_product_id}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 404',()=>pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC10_PostMessage_MissingEmail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/messages",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test\",\n  \"subject\": \"feedback\",\n  \"message\": \"Missing email\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 422/200',()=>pm.expect([422,200]).to.include(pm.response.code));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC11_PostMessage_Empty",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/messages",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 422',()=>pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC12_PostMessage_EmailFormat",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/messages",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test\",\n  \"subject\": \"feedback\",\n  \"message\": \"bad\",\n  \"email\": \"aaa\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 422',()=>pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC13_GetProducts_Page9999",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?page=9999",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "9999"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));",
+              "pm.test('List empty',()=>pm.response.json().data.length===0);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC14_GetProducts_Price1to10000",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?between=price,1,10000",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "between",
+              "value": "price,1,10000"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));",
+              "const list=pm.response.json().data;",
+              "pm.test('Prices <=10000',()=>list.every(p=>p.price<=10000));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC15_GetProducts_SpecialSort",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/products?sort=%40%23%24",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "sort",
+              "value": "%40%23%24"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC16_PostMessage_LongMessage",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/messages",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Tester\",\n  \"subject\": \"long\",\n  \"message\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"email\": \"test@example.com\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 422',()=>pm.response.to.have.status(422));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "TC17_PostMessage_NameSpecial",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/messages",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"@#$%^&*\",\n  \"subject\": \"special\",\n  \"message\": \"test\",\n  \"email\": \"test@example.com\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200',()=>pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.practicesoftwaretesting.com"
+    },
+    {
+      "key": "valid_product_id",
+      "value": "01JP2ABXF9J8J0YADSKV8BXH92"
+    },
+    {
+      "key": "invalid_product_id",
+      "value": "invalid-id-123"
+    }
+  ]
+}
