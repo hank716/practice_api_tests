@@ -1,5 +1,4 @@
 # Practice Software Testing - API Automation Tests
-(updated to match latest API response format)
 
 This project automates the API test cases designed for the [PracticeSoftwareTesting](https://api.practicesoftwaretesting.com) sample system.  
 It covers normal flows (P1), validation errors (P2), and edge cases (P3) through automated pytest scripts.
