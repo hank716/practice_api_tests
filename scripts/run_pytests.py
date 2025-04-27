@@ -1,30 +1,23 @@
-
-import datetime
 import subprocess
-import sys
-import os
 from pathlib import Path
+import datetime
 
 def main():
-    output_dir_name = os.getenv("OUTPUT_DIR", "reports")
-    base_dir = Path(__file__).parent.parent
-    reports_dir = base_dir / output_dir_name
-    reports_dir.mkdir(parents=True, exist_ok=True)
+    reports_dir = Path(__file__).parent.parent / "reports"
+    reports_dir.mkdir(exist_ok=True)
 
-    ts = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
-    report_file = reports_dir / f"pytest_{ts}.html"
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    report_path = reports_dir / f"pytest_{timestamp}.html"
 
     cmd = [
-        sys.executable, "-m", "pytest",
-        "-q",
-        "--html", str(report_file),
+        "pytest",
+        "--html", str(report_path),
         "--self-contained-html",
-        "--capture=tee-sys",
-        "--log-cli-level=INFO"
+        "--capture=tee-sys",       # 保留測試中print()
+        "--log-cli-level=DEBUG"    # 把log等級放到 DEBUG，列更多細節！
     ]
 
-    print(f"[INFO] Running Pytest... Output -> {report_file}")
-    sys.exit(subprocess.call(cmd))
+    subprocess.run(cmd, check=True)
 
 if __name__ == "__main__":
     main()

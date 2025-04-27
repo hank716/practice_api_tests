@@ -1,4 +1,3 @@
-
 import datetime
 import subprocess
 import sys
@@ -13,7 +12,7 @@ def main():
     reports_dir = base_dir / output_dir_name
     reports_dir.mkdir(parents=True, exist_ok=True)
 
-    ts = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    ts = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     report_file = reports_dir / f"postman_{ts}.html"
 
     cmd = [

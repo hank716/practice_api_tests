@@ -1,5 +1,5 @@
-import datetime
 from pathlib import Path
+import datetime
 
 def generate_index_html():
     base_dir = Path(__file__).parent.parent
@@ -14,20 +14,49 @@ def generate_index_html():
     <meta charset="UTF-8">
     <title>API Test Reports</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {{
+            padding: 3rem;
+            background-color: #f8f9fa;
+        }}
+        .container {{
+            max-width: 900px;
+        }}
+        .table thead th {{
+            background-color: #343a40;
+            color: white;
+        }}
+    </style>
 </head>
-<body class="p-5">
+<body>
     <div class="container">
-        <h1 class="mb-4">All API Test Reports</h1>
-        <p>Generated at: {now}</p>
-        <ul class="list-group">
+        <h1 class="mb-4 text-center">📊 API Test Reports</h1>
+        <p class="text-center text-muted">Generated at: {now}</p>
+        <table class="table table-hover mt-4">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Test Timestamp</th>
+                    <th scope="col">View Reports</th>
+                </tr>
+            </thead>
+            <tbody>
     """
 
-    for folder in sorted(gh_pages_dir.iterdir()):
-        if folder.is_dir():
-            html_content += f'<li class="list-group-item"><a href="{folder.name}/">{folder.name}</a></li>\n'
+    folders = sorted([f for f in gh_pages_dir.iterdir() if f.is_dir()])
+    for idx, folder in enumerate(folders, start=1):
+        folder_name = folder.name
+        html_content += f"""
+                <tr>
+                    <th scope="row">{idx}</th>
+                    <td>{folder_name}</td>
+                    <td><a href="{folder_name}/" class="btn btn-primary btn-sm" target="_blank">View</a></td>
+                </tr>
+        """
 
     html_content += """
-        </ul>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>"""
