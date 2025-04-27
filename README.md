@@ -1,103 +1,158 @@
-# Practice Software Testing - API Automation Tests
 
-This project automates the API test cases designed for the [PracticeSoftwareTesting](https://api.practicesoftwaretesting.com) sample system.  
-It covers normal flows (P1), validation errors (P2), and edge cases (P3) through automated pytest scripts.
+# 🚀 Practice API Testing Framework
+
+🔗 Lightweight project for API Automation Testing Practice using **Pytest**, **Postman**, and **Newman**.
+
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)]()
+[![Pytest](https://img.shields.io/badge/Pytest-8.1.1-brightgreen)]()
+[![Postman Collection](https://img.shields.io/badge/Postman-Collection-orange)]()
+[![License](https://img.shields.io/badge/License-MIT-lightgrey)]()
+
+---
 
 ## 📚 Tech Stack
-- Language: **Python 3**
-- Test Framework: **pytest**
-- HTTP Client: **requests**
-- Structure: Modularized by API feature (`products`, `messages`)
 
-## 🛠 Installation
+- **Language**: Python 3
+- **Test Framework**: Pytest
+- **HTTP Client**: Requests
+- **API Collection Tool**: Postman + Newman
+- **Report Generation**: pytest-html, newman-reporter-htmlextra
+- **Structure**: Modularized by API Features (Products, Messages)
+
+---
+
+## 📂 Project Structure
+
+```
+PRACTICE_API_TESTS/
+├── collection/
+│   └── PracticeSoftwareTesting_API_Collection.json    # Postman Collection for API tests
+├── reports/
+│   └── (Generated HTML reports are stored here)        # Test reports (pytest + newman)
+├── scripts/
+│   ├── run_all_test.py                                 # Script to run both Pytest and Newman tests together
+│   ├── run_newman.py                                   # Script to run Postman Collection using Newman
+│   └── run_pytests.py                                  # Script to run API tests using Pytest
+├── tests/
+│   ├── test_products.py                                # API test cases for Product-related endpoints
+│   └── test_messages.py                                # API test cases for Message submission endpoint
+├── .gitignore                                          # Ignore Python caches, venv, reports, etc.
+├── conftest.py                                         # Global Pytest fixtures (e.g., base URL, product ID setup)
+├── pytest.ini                                          # Pytest configuration file
+├── requirements.txt                                   # Python dependencies
+├── run.sh                                              # Bash script to execute full test pipeline (pytest + newman)
+├── Makefile                                            # Makefile for easier CLI operations (make all / pytest / newman / clean)
+└── README.md                                           # Project documentation
+
+```
+
+---
+
+## 🚀 Features
+
+- ✅ Postman Collection Testing via Newman
+- ✅ API Automation with Pytest
+- ✅ One-click Full Execution
+- ✅ Reports generated with Timestamped Filenames
+- ✅ Professional, modular project structure
+
+---
+
+## ⚙️ Installation
 
 1. Clone this repository:
-   ```bash
-   git clone https://github.com/hank716/practice_api_tests.git
-   cd practice_api_tests
-   ```
-
-2. Create a virtual environment and install dependencies:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
-
-## 🚀 How to Run Tests
-
-Run tests on default environment:
 
 ```bash
-pytest -v
+git clone [<repository-url>](https://github.com/hank716/practice_api_tests.git)
+cd practice_api_tests
 ```
 
-If you want to test against a different environment:
+2. Create a Python virtual environment:
 
 ```bash
-export BASE_URL=https://your-custom-env.com
-pytest -v
+python -m venv venv
+source venv/bin/activate    # For Mac/Linux
+venv\Scripts\activate     # For Windows
 ```
 
-Test results will display passed/failed status directly in the terminal.
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Install Newman globally:
+
+```bash
+npm install -g newman newman-reporter-htmlextra
+```
 
 ---
 
-## 📋 Test Coverage Overview
+## 🧪 Test Execution
 
-| # | Category | Test Description | Priority |
-|---|----------|-------------------|----------|
-| 1 | Products | Search products by price 1-78 | P1 |
-| 2 | Products | Search products by price 1-21 | P1 |
-| 3 | Products | Search products sorted by name ascending (price 1-100, page 0) | P1 |
-| 4 | Products | View product details (valid ID) | P1 |
-| 5 | Messages | Submit a valid message | P1 |
-| 6 | Products | Search products by negative price -10~5 | P2 |
-| 7 | Products | Search products with invalid sort parameter | P2 |
-| 8 | Products | View product details with invalid ID | P2 |
-| 9 | Messages | Submit message missing email field | P2 |
-|10 | Messages | Submit message with incorrect email format | P2 |
-|11 | Messages | Submit message with all fields blank | P2 |
-|12 | Products | Search page 9999 | P3 |
-|13 | Products | Search products with extreme price 1~10000 | P3 |
-|14 | Products | Search products with special characters in sort param | P3 |
-|15 | Messages | Submit message exceeding 1000 characters | P3 |
-|16 | Messages | Submit name with special characters | P3 |
-|17 | Products | Search products without any query parameters | P3 |
+### Run All Tests (bash script)
+
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+### Run with Makefile
+
+```bash
+make all
+```
+
+| Command | Description |
+|:--------|:------------|
+| `make all`     | Run all tests (Pytest + Newman) |
+| `make pytest`  | Run only Pytest |
+| `make newman`  | Run only Newman |
+| `make clean`   | Clean all caches and reports |
+
+### Run individual scripts
+
+```bash
+python scripts/run_pytests.py
+python scripts/run_newman.py
+python scripts/run_all_test.py
+```
 
 ---
 
-## 📁 Project Folder Structure
+## 📈 Test Coverage Summary
 
-The project structure is organized as follows:
+| # | Module | Description | Priority |
+|---|--------|-------------|----------|
+| 1 | Products | Search products between price 1-78 | P1 |
+| 2 | Products | Paginate first page of products | P1 |
+| 3 | Products | Search products between price 1-21 | P1 |
+| 4 | Products | Sort products by name ascending | P1 |
+| 5 | Products | Get product details by valid ID | P1 |
+| 6 | Messages | Submit a message normally | P1 |
+| 7 | Products | Validate response fields | P1 |
+| 8 | Products | Validate price field type | P1 |
+| 9 | Products | Query invalid product ID | P2 |
+| 10 | Products | Search products with negative price range | P2 |
+| 11 | Products | Query with invalid sort param | P2 |
+| 12 | Messages | Submit missing email field | P2 |
+| 13 | Messages | Submit invalid email format | P2 |
+| 14 | Messages | Submit empty fields | P2 |
+| 15 | Messages | Submit name with special characters | P3 |
+| 16 | Products | Query with special sort characters | P3 |
+| 17 | Products | Paginate non-existent high page | P3 |
 
-```
-practice_api_tests/
-├── README.md                         # Project introduction and instructions
-├── requirements.txt                  # Python dependency list
-├── pytest.ini                        # Pytest configuration
-├── .gitignore                        # Git ignore rules
-├── conftest.py                       # Common fixtures for tests
-├── PracticeSoftwareTesting_Postman_Collection.json   # Postman collection for manual API testing
-├── tests/                            # Folder containing automated test scripts
-│   ├── test_products.py              # Tests for Products API
-│   └── test_messages.py              # Tests for Messages API
-└── assets/ (optional)                # (If present) Project banner image or other media assets
-    └── banner.png                    # Project header banner
-```
-
-✅ This structure keeps manual testing and automation testing together, ensuring the project is easy to navigate and maintain.
+✅ **Total: 17 Test Cases**
 
 ---
 
-## 🗂 API Response Structure
+## 📋 API Response Structures
 
-This section summarizes the expected JSON response structures for the Practice Software Testing API.
+### 🔵 GET `/products`
 
-### 🔵 `GET /products`
 Returns a paginated list of products.
 
-**Response format:**
 ```json
 {
   "current_page": 1,
@@ -142,51 +197,64 @@ Returns a paginated list of products.
   "total": 60
 }
 ```
-- **Important field:** `data` is the array containing the list of product objects.
-- **Pagination fields:** `current_page`, `last_page`, `total`, etc., help in navigating through the list.
 
-### 🟠 `GET /products/{product_id}`
-Returns the details of a single product.
+- **Important**: `data` array contains the products.
+- **Pagination**: Includes `current_page`, `last_page`, `per_page`, `total`.
 
-**Response format:**
+### 🟠 GET `/products/{product_id}`
+
+Returns details of a single product.
+
 ```json
 {
   "id": "string",
   "name": "string",
   "description": "string",
   "price": 9.99,
-  "brand": { ... },
-  "category": { ... },
-  "product_image": { ... }
+  "is_location_offer": 1,
+  "is_rental": 0,
+  "in_stock": 0,
+  "brand": {...},
+  "category": {...},
+  "product_image": {...}
 }
 ```
-- The object contains all the detailed information about the selected product.
 
-### 🟡 `POST /messages`
-Submits a user message.
+### 🟡 POST `/messages`
 
-**Request format:**
+Submit a message.
+
 ```json
 {
   "name": "string",
   "subject": "string",
   "message": "string",
-  "email": "string"
+  "email": "string@example.com"
 }
 ```
 
-**Typical server responses:**
-- `201 Created` (original expectation) or
-- `200 OK / 422 Unprocessable Entity` depending on input validation.
+---
+
+## 📊 Reports
+
+- All generated under `/reports/`
+- Separate HTML reports for Pytest and Newman
+- Timestamped filenames for easy tracking
 
 ---
 
-## 📌 Notes
+## 📢 Notes
 
-- Default base URL: `https://api.practicesoftwaretesting.com`
-- Some tests expect `valid_product_id` to be retrievable from the first page of `/products`.
-- All requests have a timeout of 10 seconds.
-- Test priorities are categorized as:
-  - **P1**: Core normal flows
-  - **P2**: Reasonable invalid flows (validation errors)
-  - **P3**: Edge or extreme conditions
+- Base URL: `https://api.practicesoftwaretesting.com`
+- Live execution progress shown in terminal.
+
+---
+
+## 🎯 Author
+
+Hank Wang
+Practice project for API Automation learning.
+
+---
+
+# 🌟 Happy Testing!

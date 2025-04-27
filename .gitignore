@@ -1,13 +1,25 @@
+# Python cache
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+
+# Virtual environments
 venv/
 ENV/
 env/
 .venv/
+
+# pytest / mypy cache
 .pytest_cache/
 .mypy_cache/
+
+# Reports (test artifacts)
+reports/
+
+# IDE / Editor settings
 .vscode/
-.DS_Store
 .idea/
+
+# Mac system file
+.DS_Store
