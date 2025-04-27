@@ -13,8 +13,8 @@ def main():
         "pytest", "tests/",
         "--html", str(report_path),
         "--self-contained-html",
-        "--capture=tee-sys",       # ✅ pytest執行中print出來的東西也一起輸出
-        "--log-cli-level=DEBUG"    # ✅ pytest執行中log (logging.debug/info/warning...) 也即時輸出
+        "--capture=tee-sys",       
+        "--log-cli-level=DEBUG"    
     ]
 
     print(f"[INFO] Running Pytest... Output -> {report_path}")

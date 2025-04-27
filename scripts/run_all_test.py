@@ -27,7 +27,6 @@ def move_reports_to_ghpages():
     for report in reports_dir.glob("*.html"):
         shutil.copy(report, version_dir / report.name)
 
-    # 每個 timestamp 也生一個小 index.html
     small_index = f"""<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><title>Test Reports {timestamp}</title></head>
