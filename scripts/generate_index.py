@@ -3,7 +3,10 @@ from pathlib import Path
 
 def main():
     gh_pages_dir = Path(__file__).parent.parent / "gh-pages"
-    folders = sorted([f for f in gh_pages_dir.iterdir() if f.is_dir()], reverse=True)
+    folders = sorted(
+        [f for f in gh_pages_dir.iterdir() if f.is_dir() and f.name not in [".git", ".github", "gh-pages"]],
+        reverse=True
+    )
 
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -25,7 +28,7 @@ def main():
         </tr>
       </thead>
       <tbody>
-    """
+"""
 
     for idx, folder in enumerate(folders, 1):
         folder_name = folder.name
@@ -46,7 +49,7 @@ def main():
 """
 
     (gh_pages_dir / "index.html").write_text(html)
-    print(f"[INFO] Generated gh-pages/index.html")
+    print(f"[INFO] Updated gh-pages/index.html")
 
 if __name__ == "__main__":
     main()
