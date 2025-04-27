@@ -3,6 +3,7 @@ import sys
 import os
 from pathlib import Path
 import shutil
+import datetime
 
 def run_script(script_name):
     script_path = Path(__file__).parent / script_name
@@ -13,17 +14,19 @@ def move_reports_to_ghpages():
     reports_dir = base_dir / "reports"
     gh_pages_dir = base_dir / "gh-pages"
 
-    gh_pages_dir.mkdir(exist_ok=True)
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    version_dir = gh_pages_dir / timestamp
+    version_dir.mkdir(parents=True, exist_ok=True)
 
-    # Copy all reports into gh-pages/
-    for report in reports_dir.glob("*.html"):
-        shutil.copy(report, gh_pages_dir / report.name)
+    # Copy all reports into timestamped folder
+    for report_file in reports_dir.glob("*.html"):
+        shutil.copy(report_file, version_dir / report_file.name)
 
-    print(f"[INFO] Copied reports into {gh_pages_dir}/")
+    print(f"[INFO] Copied reports into {version_dir}/")
 
-    # Create .nojekyll
-    (gh_pages_dir / ".nojekyll").touch()
-    print(f"[INFO] Created .nojekyll in {gh_pages_dir}/")
+    # Create .nojekyll if not exist
+    (gh_pages_dir / ".nojekyll").touch(exist_ok=True)
+    print(f"[INFO] Ensured .nojekyll exists in {gh_pages_dir}/")
 
 def main():
     print("[INFO] Running Pytest...")
