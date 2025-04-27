@@ -19,6 +19,7 @@
 - [🗓️ API Response Structures](#-api-response-structures)
 - [📊 Reports](#-reports)
 - [🔄 CI/CD Pipeline](#-cicd-pipeline)
+- [🌐 GitHub Pages](#-github-pages---auto-publish-test-reports)
 - [📢 Notes](#-notes)
 - [🎯 Author](#-author)
 
@@ -44,27 +45,25 @@
 
 ```
 PRACTICE_API_TESTS/
-🔘 collection/
+🔘 collection/                  # Postman Collection for API tests
     └️ PracticeSoftwareTesting_API_Collection.json
-🔘 reports/
-    └️ (Generated HTML reports here)
-🔘 scripts/
-    ├️ generate_index.py
-    ├️ run_all_test.py
-    ├️ run_newman.py
-    └️ run_pytests.py
-🔘 tests/
-    ├️ test_products.py
-    └️ test_messages.py
-🔘 .github/workflows/
+🔘 scripts/                     # Helper scripts for running tests and generating reports
+    ├️ generate_index.py          # Generate dynamic index.html for GitHub Pages
+    ├️ run_all_test.py            # Run all tests (Pytest + Newman)
+    ├️ run_newman.py              # Run Newman tests
+    └️ run_pytests.py             # Run Pytest tests
+🔘 tests/                       # Pytest test cases for API features
+    ├️ test_products.py           # Tests related to Product APIs
+    └️ test_messages.py           # Tests related to Message APIs
+🔘 .github/workflows/            # GitHub Actions CI/CD workflows
     └️ python-ci.yml
-🔘 .gitignore
-🔘 conftest.py
-🔘 pytest.ini
-🔘 requirements.txt
-🔘 run.sh
-🔘 Makefile
-🔘 README.md
+🔘 .gitignore                   # Files and folders to be ignored by Git
+🔘 conftest.py                  # Global pytest fixtures
+🔘 pytest.ini                   # Pytest configuration file
+🔘 requirements.txt             # Python package dependencies
+🔘 run.sh                       # Bash script for running the full pipeline
+🔘 Makefile                     # CLI shortcuts for testing tasks
+🔘 README.md                    # Project documentation
 ```
 
 [🔝 Back to Top](#-practice-api-testing-framework)
