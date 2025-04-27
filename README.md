@@ -63,7 +63,7 @@ PRACTICE_API_TESTS/
 1. Clone this repository:
 
 ```bash
-git clone [<repository-url>](https://github.com/hank716/practice_api_tests.git)
+git clone https://github.com/hank716/practice_api_tests.git
 cd practice_api_tests
 ```
 
