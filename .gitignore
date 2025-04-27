@@ -1,4 +1,4 @@
-# Python cache
+# Python bytecode and cache
 __pycache__/
 *.py[cod]
 *$py.class
@@ -10,16 +10,24 @@ ENV/
 env/
 .venv/
 
-# pytest / mypy cache
+# pytest and mypy cache
 .pytest_cache/
 .mypy_cache/
 
-# Reports (test artifacts)
+# Test reports and artifacts
 reports/
+gh-pages/
 
-# IDE / Editor settings
+# Postman environment or collections (if needed)
+*.postman_environment.json
+*.postman_collection.json
+
+# Editor and IDE settings
 .vscode/
 .idea/
 
-# Mac system file
+# macOS system files
 .DS_Store
+
+# Node modules (if ever used)
+node_modules/

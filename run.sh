@@ -1,9 +1,4 @@
 #!/bin/bash
 
-echo "Running pytest tests..."
-python scripts/run_pytests.py
-
-echo "Running Postman Collection with newman..."
-python scripts/run_newman.py
-
-echo "All tests completed!"
+echo "Running all tests and preparing reports..."
+python scripts/run_all_test.py

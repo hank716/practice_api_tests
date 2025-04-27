@@ -1,0 +1,51 @@
+name: Full API Tests + Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  full_test_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Python dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install Newman
+      run: |
+        npm install -g newman newman-reporter-htmlextra
+
+    - name: Run All Tests
+      run: |
+        python scripts/run_all_test.py
+
+    - name: Prepare GitHub Pages folder
+      run: |
+        mkdir -p gh-pages
+        cp reports/pytest_report_*.html gh-pages/pytest_report.html || true
+        cp reports/postman_*.html gh-pages/postman_report.html || true
+        python scripts/generate_index.py
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: gh-pages
+        publish_branch: gh-pages
+        keep_files: true
