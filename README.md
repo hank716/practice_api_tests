@@ -252,8 +252,8 @@ Submit a message.
 
 ## 🎯 Author
 
-Hank Wang
-Practice project for API Automation learning.
+- Hank Wang
+- Practice project for API Automation learning.
 
 ---
 
