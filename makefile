@@ -1,6 +1,4 @@
-.PHONY: all clean
-
-all: 
+all:
 	python scripts/run_all_test.py
 
 pytest:
@@ -10,4 +8,5 @@ newman:
 	python scripts/run_newman.py
 
 clean:
-	rm -rf __pycache__ .pytest_cache reports/* gh-pages/*
+	rm -rf reports/
+	rm -rf gh-pages/
