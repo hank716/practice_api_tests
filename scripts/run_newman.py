@@ -47,7 +47,6 @@ def main():
     with progress:
         for line in proc.stdout:
             print(line, end="")
-
             if total_reqs is None:
                 m = re.search(r"Total requests:\s+(\d+)", line)
                 if m:

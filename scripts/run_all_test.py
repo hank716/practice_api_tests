@@ -27,10 +27,22 @@ def move_reports_to_ghpages():
     for report in reports_dir.glob("*.html"):
         shutil.copy(report, version_dir / report.name)
 
+    # 每個 timestamp 也生一個小 index.html
+    small_index = f"""<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Test Reports {timestamp}</title></head>
+<body>
+<h2>Test Reports ({timestamp})</h2>
+<ul>
+"""
+    for report in version_dir.glob("*.html"):
+        small_index += f'<li><a href="{report.name}">{report.name}</a></li>\n'
+    small_index += "</ul></body></html>"
+    (version_dir / "index.html").write_text(small_index)
+
     print(f"[INFO] Copied latest reports into {version_dir}")
 
     (gh_pages_dir / ".nojekyll").touch(exist_ok=True)
-    print(f"[INFO] Ensured .nojekyll exists")
 
 def main():
     clean_reports_folder()
