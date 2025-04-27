@@ -1,3 +1,4 @@
+
 name: Full API Tests + Deploy to GitHub Pages
 
 on:
@@ -7,6 +8,8 @@ on:
 jobs:
   full_test_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      OUTPUT_DIR: gh-pages
 
     steps:
     - name: Checkout code
@@ -27,25 +30,11 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install Newman
-      run: |
-        npm install -g newman newman-reporter-htmlextra
+    - name: Install Newman Reporter
+      run: npm install -g newman newman-reporter-htmlextra
 
     - name: Run All Tests
-      run: |
-        python scripts/run_all_test.py
-
-    - name: Prepare GitHub Pages folder
-      run: |
-        mkdir -p gh-pages
-        cp reports/pytest_report_*.html gh-pages/pytest_report.html || true
-        cp reports/postman_*.html gh-pages/postman_report.html || true
-        python scripts/generate_index.py
-
-    - name: Setup Git User
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      run: python scripts/run_all_test.py
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

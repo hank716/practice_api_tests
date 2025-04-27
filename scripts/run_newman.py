@@ -1,10 +1,17 @@
-import datetime, subprocess, sys, re
+
+import datetime
+import subprocess
+import sys
+import os
+import re
 from pathlib import Path
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn, TimeRemainingColumn
 
 def main():
-    reports_dir = Path(__file__).parent.parent / "reports"
-    reports_dir.mkdir(exist_ok=True)
+    output_dir_name = os.getenv("OUTPUT_DIR", "reports")
+    base_dir = Path(__file__).parent.parent
+    reports_dir = base_dir / output_dir_name
+    reports_dir.mkdir(parents=True, exist_ok=True)
 
     ts = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
     report_file = reports_dir / f"postman_{ts}.html"
@@ -15,6 +22,8 @@ def main():
         "--reporter-htmlextra-export", str(report_file),
         "--color", "on"
     ]
+
+    print(f"[INFO] Running Newman... Output -> {report_file}")
 
     proc = subprocess.Popen(
         cmd,
@@ -27,7 +36,6 @@ def main():
     total_reqs = None
     task_id = None
 
-    # rich progress bar
     progress = Progress(
         SpinnerColumn(),
         TextColumn("[bold blue]{task.description}"),
@@ -39,13 +47,13 @@ def main():
 
     with progress:
         for line in proc.stdout:
-            print(line, end="")  # keep orignal newman's CLI output
+            print(line, end="")
 
             if total_reqs is None:
                 m = re.search(r"Total requests:\s+(\d+)", line)
                 if m:
                     total_reqs = int(m.group(1))
-                    task_id = progress.add_task("Running API tests", total=total_reqs)
+                    task_id = progress.add_task("Running API requests", total=total_reqs)
 
             if task_id is not None and line.startswith("→"):
                 progress.update(task_id, advance=1)
