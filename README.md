@@ -5,12 +5,11 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)]()
 [![Pytest](https://img.shields.io/badge/Pytest-8.1.1-brightgreen)]()
 [![Postman Collection](https://img.shields.io/badge/Postman-Collection-orange)]()
-[![License](https://img.shields.io/badge/License-MIT-lightgrey)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg)]()
 
 ---
 
 ## Table of Contents
-
 - [📚 Tech Stack](#-tech-stack)
 - [📂 Project Structure](#-project-structure)
 - [🚀 Features](#-features)
@@ -19,6 +18,7 @@
 - [📊 Test Coverage Summary](#-test-coverage-summary)
 - [🗓️ API Response Structures](#-api-response-structures)
 - [📊 Reports](#-reports)
+- [🔄 CI/CD Pipeline](#-cicd-pipeline)
 - [📢 Notes](#-notes)
 - [🎯 Author](#-author)
 
@@ -34,7 +34,7 @@
 - **API Collection Tool**: Postman + Newman
 - **Report Generation**: pytest-html, newman-reporter-htmlextra, custom GitHub Pages index
 - **Structure**: Modularized by API Features (Products, Messages)
-- **CI/CD**: GitHub Actions Integration (Auto-run tests and publish reports)
+- **CI/CD**: GitHub Actions (auto-run tests and publish reports)
 
 [🔝 Back to Top](#-practice-api-testing-framework)
 
@@ -44,29 +44,27 @@
 
 ```
 PRACTICE_API_TESTS/
-├── collection/
-│   └── PracticeSoftwareTesting_API_Collection.json    # Postman Collection for API tests
-├── gh-pages/
-│   └── (Generated GitHub Pages HTML reports)
-├── reports/
-│   └── (Generated HTML reports are stored here)        # Test reports (pytest + newman)
-├── scripts/
-│   ├── generate_index.py                               # Script to generate index.html for gh-pages
-│   ├── run_all_test.py                                 # Script to run both Pytest and Newman tests together
-│   ├── run_newman.py                                   # Script to run Postman Collection using Newman
-│   └── run_pytests.py                                  # Script to run API tests using Pytest
-├── tests/
-│   ├── test_products.py                                # API test cases for Product-related endpoints
-│   └── test_messages.py                                # API test cases for Message submission endpoint
-├── .github/workflows/
-│   └── python-ci.yml                                   # GitHub Actions workflow for CI/CD
-├── .gitignore                                          # Ignore Python caches, venv, reports, etc.
-├── conftest.py                                         # Global Pytest fixtures (e.g., base URL, product ID setup)
-├── pytest.ini                                          # Pytest configuration file
-├── requirements.txt                                   # Python dependencies
-├── run.sh                                              # Bash script to execute full test pipeline (pytest + newman)
-├── Makefile                                            # Makefile for easier CLI operations (make all / pytest / newman / clean)
-└── README.md                                           # Project documentation
+🔘 collection/
+    └️ PracticeSoftwareTesting_API_Collection.json
+🔘 reports/
+    └️ (Generated HTML reports here)
+🔘 scripts/
+    ├️ generate_index.py
+    ├️ run_all_test.py
+    ├️ run_newman.py
+    └️ run_pytests.py
+🔘 tests/
+    ├️ test_products.py
+    └️ test_messages.py
+🔘 .github/workflows/
+    └️ python-ci.yml
+🔘 .gitignore
+🔘 conftest.py
+🔘 pytest.ini
+🔘 requirements.txt
+🔘 run.sh
+🔘 Makefile
+🔘 README.md
 ```
 
 [🔝 Back to Top](#-practice-api-testing-framework)
@@ -76,12 +74,12 @@ PRACTICE_API_TESTS/
 ## 🚀 Features
 
 - ✅ Postman Collection Testing via Newman
-- ✅ API Automation with Pytest
-- ✅ One-click Full Execution
-- ✅ Reports generated with Timestamped Filenames
-- ✅ Professional, modular project structure
+- ✅ API Automation Testing with Pytest
+- ✅ One-click Full Execution (Pytest + Newman)
+- ✅ Timestamped HTML Reports
+- ✅ Professional modular project layout
 - ✅ GitHub Actions CI/CD pipeline integration
-- ✅ GitHub Pages one-page summary of test results
+- ✅ GitHub Pages report auto-deployment
 
 [🔝 Back to Top](#-practice-api-testing-framework)
 
@@ -89,28 +87,26 @@ PRACTICE_API_TESTS/
 
 ## ⚙️ Installation
 
-1. Clone this repository:
-
 ```bash
 git clone https://github.com/hank716/practice_api_tests.git
 cd practice_api_tests
 ```
 
-2. Create a Python virtual environment:
+Create a Python virtual environment:
 
 ```bash
 python -m venv venv
-source venv/bin/activate    # For Mac/Linux
-venv\Scripts\activate     # For Windows
+source venv/bin/activate   # Mac/Linux
+venv\Scripts\activate      # Windows
 ```
 
-3. Install dependencies:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Install Newman globally:
+Install Newman globally:
 
 ```bash
 npm install -g newman newman-reporter-htmlextra
@@ -129,13 +125,7 @@ chmod +x run.sh
 ./run.sh
 ```
 
-[🔝 Back to Top](#-practice-api-testing-framework)
-
 ### Run with Makefile
-
-```bash
-make all
-```
 
 | Command | Description |
 |:--------|:------------|
@@ -188,8 +178,6 @@ python scripts/run_all_test.py
 
 ### 🔵 GET /products
 
-Returns a paginated list of products.
-
 ```json
 {
   "current_page": 1,
@@ -202,12 +190,10 @@ Returns a paginated list of products.
 }
 ```
 
-- **Important**: data array contains the products.
-- **Pagination**: Includes current_page, last_page, per_page, total.
+- **Pagination fields** included.
+- **Data** is an array of product details.
 
-### 🟠 GET /products/{product_id}
-
-Returns details of a single product.
+### 🔸 GET /products/{product_id}
 
 ```json
 {
@@ -224,9 +210,7 @@ Returns details of a single product.
 }
 ```
 
-### 🟡 POST /messages
-
-Submit a message.
+### 🔹 POST /messages
 
 ```json
 {
@@ -243,10 +227,84 @@ Submit a message.
 
 ## 📊 Reports
 
-- All generated under `/reports/`
-- Separate HTML reports for Pytest and Newman
-- Timestamped filenames for easy tracking
-- Auto-published to GitHub Pages as a **one-page report summary** via `generate_index.py`
+- All reports generated under `/reports/`
+- HTML reports generated for:
+  - Pytest
+  - Newman
+- Reports are timestamped and organized
+- Auto-published via GitHub Actions to GitHub Pages
+- Index page generated automatically by `generate_index.py`
+
+[🔝 Back to Top](#-practice-api-testing-framework)
+
+---
+
+## 🔄 CI/CD Pipeline
+
+✅ GitHub Actions (`.github/workflows/python-ci.yml`) automatically:
+1. Set up Python environment.
+2. Install project dependencies.
+3. Run Pytest and generate HTML reports.
+4. Run Newman and generate HTML reports.
+5. Upload reports to `gh-pages` branch for GitHub Pages hosting.
+
+Every push to `main` branch will:
+- **Trigger automated API tests**
+- **Generate fresh reports**
+- **Deploy reports to a live GitHub Pages site**
+
+> 📢 **Result:** Full test automation with instant feedback and online-accessible test results!
+
+[🔝 Back to Top](#-practice-api-testing-framework)
+
+---
+
+## 🌐 GitHub Pages - Auto Publish Test Reports
+
+### What is GitHub Pages?
+GitHub Pages allows you to **host HTML reports directly from your repository**, making it easy to browse your test results online.
+
+### How It Works
+
+- Our **CI/CD workflow** automatically:
+  1. Runs API tests (Pytest + Newman).
+  2. Generates timestamped HTML reports.
+  3. Commits generated reports to the `gh-pages` branch.
+  4. Publishes `gh-pages` branch via GitHub Pages.
+
+- The **`generate_index.py`** script creates a dynamic `index.html` that lists all report files for easy navigation.
+
+### Setup Instructions (One-time)
+
+1. Go to your repository **Settings** → **Pages**.
+2. Under **Build and deployment**, set:
+   - **Source**: Deploy from a branch
+   - **Branch**: `gh-pages`
+   - **Folder**: `/ (root)`
+3. Save.
+
+After this, every new test run will automatically update the report site!
+
+### View the Reports
+
+Once setup, you can view your API test reports at:
+
+```
+https://<your-github-username>.github.io/<your-repo-name>/
+```
+
+Example:
+
+```
+https://hank716.github.io/practice_api_tests/
+```
+
+You will see:
+- ✅ Pytest HTML Report
+- ✅ Newman HTML Report
+- ✅ Auto-generated index.html linking all reports
+
+> 🚀 **Result**: Test results become easily accessible online, no manual uploads needed!
 
 [🔝 Back to Top](#-practice-api-testing-framework)
 
@@ -254,10 +312,9 @@ Submit a message.
 
 ## 📢 Notes
 
-- Base URL: https://api.practicesoftwaretesting.com
-- Live execution progress shown in terminal.
-- GitHub Actions workflow runs tests on every push to `main` branch.
-- Reports are deployed to GitHub Pages automatically.
+- Base URL: `https://api.practicesoftwaretesting.com`
+- Test results printed to console during run.
+- HTML Reports stored locally and published remotely.
 
 [🔝 Back to Top](#-practice-api-testing-framework)
 
@@ -265,8 +322,8 @@ Submit a message.
 
 ## 🎯 Author
 
-- Hank Wang
-- Practice project for API Automation learning.
+- **Hank Wang**
+- Personal project for API automation practice.
 
 [🔝 Back to Top](#-practice-api-testing-framework)
 
