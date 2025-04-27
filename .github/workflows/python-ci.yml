@@ -7,12 +7,12 @@ on:
 jobs:
   full_test_and_deploy:
     runs-on: ubuntu-latest
-    env:
-      OUTPUT_DIR: reports
 
     steps:
-    - name: Checkout code
+    - name: Checkout main branch
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -32,14 +32,21 @@ jobs:
     - name: Install Newman Reporter
       run: npm install -g newman newman-reporter-htmlextra
 
-    - name: Ensure folders
-      run: mkdir -p gh-pages reports
+    - name: Checkout gh-pages branch
+      run: |
+        git fetch origin gh-pages
+        git checkout gh-pages
+        mkdir -p gh-pages
+        cp -r * gh-pages/ || true
+        git checkout main
 
     - name: Run All Tests
       run: python scripts/run_all_test.py
 
+    - name: Generate updated index.html
+      run: python scripts/generate_index.py
+
     - name: Deploy to GitHub Pages
-      if: success()
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
