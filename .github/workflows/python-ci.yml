@@ -42,6 +42,11 @@ jobs:
         cp reports/postman_*.html gh-pages/postman_report.html || true
         python scripts/generate_index.py
 
+    - name: Setup Git User
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
