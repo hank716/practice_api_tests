@@ -37,7 +37,7 @@ def product_list(base_url):
 
 @pytest.fixture(autouse=True)
 def log_request_response():
-    """Auto-log every requests request + response status."""
+    """Auto-log every HTTP request and response status."""
     old_get = requests.get
     old_post = requests.post
 
