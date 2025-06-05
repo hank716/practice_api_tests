@@ -3,6 +3,7 @@ import subprocess
 import sys
 import os
 import re
+import shutil
 from pathlib import Path
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn, TimeRemainingColumn
 
@@ -11,6 +12,11 @@ def main():
     base_dir = Path(__file__).parent.parent
     reports_dir = base_dir / output_dir_name
     reports_dir.mkdir(parents=True, exist_ok=True)
+
+    # Check if 'newman' executable is available
+    if not shutil.which("newman"):
+        print("[WARN] 'newman' not found in PATH. Skipping Postman collection run.")
+        return
 
     ts = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     report_file = reports_dir / f"postman_{ts}.html"
